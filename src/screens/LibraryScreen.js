@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
-export default function Mypage() {
+export default function LibraryScreen() {
   return (
     <View style={styles.container}>
-      <Text>My Page</Text>
+      <Text>Library</Text>
     </View>
   );
 }
