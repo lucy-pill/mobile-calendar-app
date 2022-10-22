@@ -2,6 +2,9 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
+// Redux
+import {useSelector} from 'react-redux';
+
 // Component
 import Date from '../atoms/Date';
 
@@ -12,20 +15,23 @@ import getDay from '../../utils/getDay';
 import getLastDay from '../../utils/getLastDay';
 
 export default function Content() {
-  // const startDay = new Date(currentYear, currentMonth, 0);
-  // const prevDate = startDay.getDate();
-  // const prevDay = startDay.getDay();
-  const prevLastDate = getLastDay(getYear(), getMonth('number'));
+  const year = useSelector(state => state.calendar.year);
+  const month = useSelector(state => state.calendar.month);
+
+  const prevLastDate = getLastDay(year, month);
   const prevDateArray = Array.from(
-    {length: getDay(getYear(), getMonth('number'), 1, 'number')},
+    {length: getDay(year, month, 1, 'number')},
     (num = prevLastDate, i) => num - i,
   ).reverse();
 
-  const currLastDate = getLastDay(getYear(), getMonth('number') + 1);
-  const currDateArray = Array.from({length: currLastDate}, (v, i) => i + 1);
-  console.log(getDay(getYear(), getMonth('number'), currLastDate, 'number'));
+  const currLastDate = getLastDay(year, month + 1);
+  const currDateArray = Array.from(
+    {length: currLastDate},
+    (num = 1, i) => num + i,
+  );
+
   const nextDateArray = Array.from(
-    {length: 6 - getDay(getYear(), getMonth('number'), currLastDate, 'number')},
+    {length: 6 - getDay(year, month, currLastDate, 'number')},
     (num = 1, i) => num + i,
   );
 

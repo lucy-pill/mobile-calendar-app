@@ -2,6 +2,9 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
+// Redux
+import {useSelector, useDispatch} from 'react-redux';
+
 // Packages
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -11,10 +14,36 @@ import getMonth from '../../utils/getMonth';
 import getWidth from '../../utils/getWidth';
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const year = useSelector(state => state.calendar.year);
+  const month = useSelector(state => state.calendar.month);
+  const setMonth = useSelector(state => state.calendar.setMonth);
+  const setYear = useSelector(state => state.calendar.setYear);
+
+  const onClickHandle = state => {
+    switch (state) {
+      case 'prev': {
+        if (month === 0) {
+          dispatch(setYear(year - 1));
+          dispatch(setMonth(11));
+        } else {
+          dispatch(setMonth(month - 1));
+        }
+      }
+      default: {
+        break;
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.arrow_back}>
-        <SimpleLineIcons name="arrow-left" size={20} />
+        <SimpleLineIcons
+          name="arrow-left"
+          size={20}
+          onPress={() => onClickHandle('prev')}
+        />
       </View>
       <View>
         <Text>
@@ -22,7 +51,11 @@ export default function Header() {
         </Text>
       </View>
       <View style={styles.arrow_forward}>
-        <SimpleLineIcons name="arrow-right" size={20} />
+        <SimpleLineIcons
+          name="arrow-right"
+          size={20}
+          onPress={() => onClickHandle('next')}
+        />
       </View>
     </View>
   );

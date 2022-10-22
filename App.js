@@ -1,6 +1,10 @@
 // React
 import React from 'react';
 
+// Redux
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+
 // Packages
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -9,8 +13,10 @@ import BottomNavigation from './src/navigation/BottomNavigation';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <BottomNavigation />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <BottomNavigation />
+      </NavigationContainer>
+    </Provider>
   );
 }
