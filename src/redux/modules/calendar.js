@@ -7,6 +7,11 @@ const calendarSlice = createSlice({
   initialState: {
     month: getMonth(),
     year: getYear(),
+    selectedDate: {
+      year: null,
+      month: null,
+      date: null,
+    },
   },
   reducers: {
     setMonth: (state, action) => {
@@ -15,7 +20,11 @@ const calendarSlice = createSlice({
     setYear: (state, action) => {
       state.year = action.payload;
     },
+    setSelectedDate: (state, action) => {
+      state.selectedDate = action.payload;
+    },
   },
 });
 
 export default calendarSlice.reducer;
+export const {setMonth, setYear, setSelectedDate} = calendarSlice.actions;

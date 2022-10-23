@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
   },
   calenderBox: {
     flex: 0.8,
-    borderColor: 'blue',
-    borderWidth: 1,
   },
   emptyBox: {
     flex: 0.2,

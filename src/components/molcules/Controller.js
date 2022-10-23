@@ -1,24 +1,36 @@
 // React, React Native
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 
 // Redux
 import {useSelector, useDispatch} from 'react-redux';
+import {setMonth, setYear} from '../../redux/modules/calendar';
 
 // Packages
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 // Utils
-import getYear from '../../utils/getYear';
-import getMonth from '../../utils/getMonth';
 import getWidth from '../../utils/getWidth';
 
 export default function Header() {
   const dispatch = useDispatch();
   const year = useSelector(state => state.calendar.year);
   const month = useSelector(state => state.calendar.month);
-  const setMonth = useSelector(state => state.calendar.setMonth);
-  const setYear = useSelector(state => state.calendar.setYear);
+
+  const monthArr = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   const onClickHandle = state => {
     switch (state) {
@@ -29,6 +41,16 @@ export default function Header() {
         } else {
           dispatch(setMonth(month - 1));
         }
+        break;
+      }
+      case 'next': {
+        if (month === 11) {
+          dispatch(setYear(year + 1));
+          dispatch(setMonth(0));
+        } else {
+          dispatch(setMonth(month + 1));
+        }
+        break;
       }
       default: {
         break;
@@ -38,25 +60,21 @@ export default function Header() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.arrow_back}>
-        <SimpleLineIcons
-          name="arrow-left"
-          size={20}
-          onPress={() => onClickHandle('prev')}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.arrow_back}
+        onPress={() => onClickHandle('prev')}>
+        <SimpleLineIcons name="arrow-left" size={20} />
+      </TouchableOpacity>
       <View>
         <Text>
-          {getMonth('string')} {getYear()}
+          {monthArr[month]} {year}
         </Text>
       </View>
-      <View style={styles.arrow_forward}>
-        <SimpleLineIcons
-          name="arrow-right"
-          size={20}
-          onPress={() => onClickHandle('next')}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.arrow_forward}
+        onPress={() => onClickHandle('next')}>
+        <SimpleLineIcons name="arrow-right" size={20} />
+      </TouchableOpacity>
     </View>
   );
 }
